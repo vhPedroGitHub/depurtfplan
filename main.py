@@ -62,12 +62,13 @@ def print_resources(resources, title):
     i = 1
     j = 0
     for resource in resources:
+        print(f'{i}. Address: {resource.address}, mode: {resource.mode}')
         i += 1
         j += 1
-        print(f'{i}. Address: {resource.address}, mode: {resource.mode}')
         if j == 10:
             input("Press Enter to continue...")
             j = 0
+    input("Press Enter to continue...")
 
 print_resources(list_resources_create, 'Resources to be created')
 print_resources(list_resources_update, 'Resources to be updated')
@@ -82,13 +83,10 @@ for resource in all_resources:
         dict_types[resource.type] = []
     dict_types[resource.type].append(resource)
 
-j = 0
 for resource_type, resources in dict_types.items():
     print(f'\nResources of type {resource_type}:')
     for resource in resources:
-        print(f'Address: {resource.address}, mode: {resource.mode}')
-        j += 1
-        if j == 10:
-            input("Press Enter to continue...")
-            j = 0
+        print(f'Address: {resource.address}, action: {resource.action}')
+
+    input("Press Enter to continue...")
 
