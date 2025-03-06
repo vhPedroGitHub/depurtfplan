@@ -41,6 +41,7 @@ list_resources_update = []
 list_resources_delete = []
 list_resources_delete_create = []
 list_resources_no_changes = []
+dict_types = {}
 
 for resource in all_resources:
     if resource.action == 'create':
@@ -54,22 +55,40 @@ for resource in all_resources:
     else:
         list_resources_no_changes.append(resource)
 
-print('\nResources to be created:')
-for resource in list_resources_create:
-    print(f'Address: {resource.address}, mode: {resource.mode}')
+i = 1
+j = 0
+def print_resources(resources, title):
+    print(f'\n{title}:')
+    i = 1
+    j = 0
+    for resource in resources:
+        i += 1
+        j += 1
+        print(f'{i}. Address: {resource.address}, mode: {resource.mode}')
+        if j == 10:
+            input("Press Enter to continue...")
+            j = 0
 
-print('\nResources to be updated:')
-for resource in list_resources_update:
-    print(f'Address: {resource.address}, mode: {resource.mode}')
+print_resources(list_resources_create, 'Resources to be created')
+print_resources(list_resources_update, 'Resources to be updated')
+print_resources(list_resources_delete, 'Resources to be deleted')
+print_resources(list_resources_delete_create, 'Resources to be deleted and created again')
+print_resources(list_resources_no_changes, 'Resources with no changes')
 
-print('\nResources to be deleted:')
-for resource in list_resources_delete:
-    print(f'Address: {resource.address}, mode: {resource.mode}')
+print('\n\n\n\n\n\n')
+print('Now we will show you the resources by type')
+for resource in all_resources:
+    if resource.type not in dict_types:
+        dict_types[resource.type] = []
+    dict_types[resource.type].append(resource)
 
-print('\nResources to be deleted and created again:')
-for resource in list_resources_delete_create:
-    print(f'Address: {resource.address}, mode: {resource.mode}')
+j = 0
+for resource_type, resources in dict_types.items():
+    print(f'\nResources of type {resource_type}:')
+    for resource in resources:
+        print(f'Address: {resource.address}, mode: {resource.mode}')
+        j += 1
+        if j == 10:
+            input("Press Enter to continue...")
+            j = 0
 
-print('\nResources with no changes:')
-for resource in list_resources_no_changes:
-    print(f'Address: {resource.address}, mode: {resource.mode}')
