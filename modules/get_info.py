@@ -65,7 +65,7 @@ root_module_resources = root_module['resources']
 
 child_modules = root_module['child_modules']
 
-resources_drift = json_data.get('resource_drift', 0)
+resources_drift = json_data.get('resource_drift', [])
 resources_changes = json_data['resource_changes']
 outputs_changed = json_data['output_changes']
 
