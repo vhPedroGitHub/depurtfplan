@@ -1,6 +1,7 @@
 # Los archivos json deben de estar en el directorio books
 import json
 import os
+
 def len_root_module_resources():    
     return len(root_module_resources)
 
@@ -35,7 +36,7 @@ def get_json_data():
         json_data = json.load(file)
     return json_data
 
-def get_changed_resources():
+def get_changed_resources(resources_changes=None):
     delete_to_create = 0
     only_delete = 0
     only_create = 0
@@ -56,6 +57,9 @@ def get_changed_resources():
             no_changes += 1
     return delete_to_create, only_delete, only_create, only_update, no_changes
 
+from modules.resources import *
+
+# variables para saber el proceso de cambio de mis recursos
 
 # Ahora separaremos el json en varias variables que contendran datos de interes
 json_data = get_json_data()
@@ -69,3 +73,26 @@ resources_drift = json_data.get('resource_drift', [])
 resources_changes = json_data['resource_changes']
 outputs_changed = json_data['output_changes']
 
+delete_to_create, only_delete, only_create, only_update, no_changes = get_changed_resources(resources_changes)
+
+OP_Plan1 = OP_Plan(resources_changes)
+all_resources = OP_Plan1.get_all_resources()
+
+list_resources_create = []
+list_resources_update = []
+list_resources_delete = []
+list_resources_delete_create = []
+list_resources_no_changes = []
+dict_types = {}
+
+for resource in all_resources:
+    if resource.action == 'create':
+        list_resources_create.append(resource)
+    elif resource.action == 'update':
+        list_resources_update.append(resource)
+    elif resource.action == 'delete':
+        list_resources_delete.append(resource)
+    elif resource.action == 'delete_create':
+        list_resources_delete_create.append(resource)
+    else:
+        list_resources_no_changes.append(resource)

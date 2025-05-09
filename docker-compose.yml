@@ -1,0 +1,34 @@
+# Use postgres/example user/password credentials
+
+services:
+
+  db:
+    image: postgres:15
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: terr
+      POSTGRES_PASSWORD: 7473uwbdie8
+      POSTGRES_DB: terraform
+    volumes:  
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  api:
+    build: api-flask
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://terr:7473uwbdie8@db:5432/terraform
+    depends_on:
+      - db
+
+volumes:
+  db_data:

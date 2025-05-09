@@ -1,8 +1,6 @@
 import json
 import os
 
-from modules.get_info import *
-
 class Resource:
     def __init__(self, address, type, mode, action, all_config):
         self.address = address
