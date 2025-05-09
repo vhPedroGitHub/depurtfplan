@@ -1,8 +1,8 @@
 # app/routes.py
 from flask import jsonify, request
 from app import app
-from app.models import db
-from app.models import User
+from api_database.app.models_users import db
+from api_database.app.models_users import User
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -17,7 +17,8 @@ def get_user(user_id):
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json()
-    new_user = User(username=data['username'], email=data['email'])
+    new_user = User(username=data['username'], email=data['email'], password=data['password'], 
+                    created_at=data.get('created_at'), updated_at=data.get('updated_at'))
     db.session.add(new_user)
     db.session.commit()
     return jsonify(new_user.serialize()), 201

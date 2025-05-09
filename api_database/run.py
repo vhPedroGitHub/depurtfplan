@@ -1,6 +1,6 @@
 # run.py
 from app import app
-from app.models import db
+from api_database.app.models_users import db
 from config import Config
 
 app.config.from_object(Config)
