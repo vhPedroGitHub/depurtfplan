@@ -1,7 +1,8 @@
 # app/routes.py
 from flask import jsonify, request
-from api_database.components import app, db
-from api_database.components import User
+from app import app
+from app.models import db
+from app.models import User
 
 @app.route('/users', methods=['GET'])
 def get_users():

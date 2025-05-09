@@ -20,15 +20,22 @@ services:
     restart: always
     ports:
       - 8080:8080
-
   api:
-    build: api-flask
+    build: .
+    container_name: api_flask
+    restart: always
     ports:
       - "5000:5000"
     environment:
       DATABASE_URL: postgresql://terr:7473uwbdie8@db:5432/terraform
     depends_on:
       - db
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s  # Esperar 5 segundos antes de intentar reiniciar
+        max_attempts: 3
 
 volumes:
   db_data:
